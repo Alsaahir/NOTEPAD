@@ -10,16 +10,18 @@ function NotePage ({match, history}) {
   let [note, setNote] = useState(null)
   let { id } = useParams()
 
+  
   useEffect(() => {
-    getNote()
-  }, [id])
+    const getNote = async () => { 
+        if (id === 'new') return
+        let response = await fetch(`http://localhost:5000/notes/${id}`)
+        let data = await response.json()
+        setNote(data)
+    }
 
-  let getNote = async () => {
-    if (id === 'new') return
-    let response = await fetch(`http://localhost:5000/notes/${id}`)
-    let data = await response.json()
-    setNote(data)
-  }
+    getNote()
+}, [id])
+
 
   let createNote = async () => {
     let response = await fetch('http://localhost:5000/notes', {
