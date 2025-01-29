@@ -31,7 +31,13 @@ function NotePage ({match, history}) {
       },
       body: JSON.stringify({...note, 'updated': new Date()})
     })
-    navigate('/')
+
+    if (!response.ok) {
+      throw new Error(`Failed to create note: ${response.status}`);
+    } else {
+      navigate('/')
+    }
+    
   }
 
   let updateNote = async () => {
@@ -42,7 +48,11 @@ function NotePage ({match, history}) {
       },
       body: JSON.stringify({...note, 'updated': new Date()})
     })
-    let data = await response.json()
+    if (!response.ok) {
+      throw new Error(`Failed to update note: ${response.status}`);
+    } else {
+      navigate('/')
+    }
   }
 
   let handleSubmit = () => {
